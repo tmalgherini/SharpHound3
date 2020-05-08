@@ -29,8 +29,8 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: 'D:\a\1\s\SharpHound3\bin\Release\SharpHound3.exe'
-    ArtifactName: 'SharpHound3.exe'
+    PathtoPublish: 'D:\a\1\s\SharpHound3\bin\Release\SharpHound.exe'
+    ArtifactName: 'SharpHound.exe'
     publishLocation: 'Container'
     
 - task: PowerShell@2
@@ -54,7 +54,7 @@ steps:
       <protection id="constants" />
       <!-- <protection id="anti tamper" /> -->
       </rule>
-      <module path="D:\a\1\s\SharpHound3\bin\Release\SharpHound3.exe"/>
+      <module path="D:\a\1\s\SharpHound3\bin\Release\SharpHound.exe"/>
       </project>
       "@|Out-File -FilePath confuserex.crproj
       mkdir confused
@@ -68,7 +68,7 @@ steps:
 - task: AzureFileCopy@3
   name: UploadFile
   inputs:
-    SourcePath: 'D:\a\1\s\confused\SharpHound3\bin\Release\SharpHound3.exe'
+    SourcePath: 'D:\a\1\s\confused\SharpHound3\bin\Release\SharpHound.exe'
     azureSubscription: $(SubName)
     Destination: 'AzureBlob'
     storage: $(StorageAccount)
