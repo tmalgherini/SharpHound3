@@ -33,42 +33,10 @@ steps:
     ArtifactName: 'SharpHound.exe'
     publishLocation: 'Container'
     
-- task: PowerShell@2
-  name: ConfuserExSetup
-  inputs:
-    targetType: 'inline'
-    script: |
-      $(New-Object System.Net.WebClient).DownloadFile("https://github.com/yck1509/ConfuserEx/releases/download/v1.0.0/ConfuserEx_bin.zip", "confuserex.zip")
-      pwd
-      Expand-Archive -Path confuserex.zip -DestinationPath confuserex
-      @"
-      <project outputDir=".\confused" baseDir="." xmlns="http://confuser.codeplex.com">
-      <rule pattern="true" preset="aggressive">
-      <protection id="anti ildasm" />
-      <protection id="rename" />
-      <protection id="resources" /> 
-      <protection id="invalid metadata" />
-      <protection id="anti debug" />
-      <!-- <protection id="anti dump" /> -->
-      <protection id="ctrl flow" />
-      <protection id="constants" />
-      <!-- <protection id="anti tamper" /> -->
-      </rule>
-      <module path="D:\a\1\s\SharpHound3\bin\Release\SharpHound.exe"/>
-      </project>
-      "@|Out-File -FilePath confuserex.crproj
-      mkdir confused
-      
-- task: CmdLine@2
-  name: ConfuserExRun
-  inputs:
-    script: |
-        dir
-        confuserex\Confuser.CLI.exe confuserex.crproj
 - task: AzureFileCopy@3
   name: UploadFile
   inputs:
-    SourcePath: 'D:\a\1\s\confused\SharpHound3\bin\Release\SharpHound.exe'
+    SourcePath: 'D:\a\1\s\SharpHound3\bin\Release\SharpHound.exe'
     azureSubscription: $(SubName)
     Destination: 'AzureBlob'
     storage: $(StorageAccount)
